@@ -1,0 +1,35 @@
+import Foundation
+
+/**
+ * Singleton storing the configs needed to initialize an MediaPipe Tasks object and run inference.
+ * Controllers can observe the `InferenceConfigurationManager.notificationName` for any changes made by the user.
+ */
+
+class InferenceConfigurationManager: NSObject {
+  var modelPath: String? = DefaultConstants.modelPath
+
+  var minHandDetectionConfidence: Float = DefaultConstants.minHandDetectionConfidence {
+    didSet { postConfigChangedNotification() }
+  }
+
+  var minHandPresenceConfidence: Float = DefaultConstants.minHandPresenceConfidence {
+    didSet { postConfigChangedNotification() }
+  }
+  
+  var minTrackingConfidence: Float = DefaultConstants.minTrackingConfidence {
+    didSet { postConfigChangedNotification() }
+  }
+  
+    var numHands: Int = DefaultConstants.numHands {
+        didSet { postConfigChangedNotification() }
+    }
+  static let sharedInstance = InferenceConfigurationManager()
+  
+  static let notificationName = Notification.Name.init(rawValue: "com.google.mediapipe.inferenceConfigChanged")
+  
+  private func postConfigChangedNotification() {
+    NotificationCenter.default
+      .post(name: InferenceConfigurationManager.notificationName, object: nil)
+  }
+
+}
