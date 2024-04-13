@@ -1,2 +1,2 @@
 # HandSee
-HandSee gesture recognition 
+HandSee gesture recognition project.
